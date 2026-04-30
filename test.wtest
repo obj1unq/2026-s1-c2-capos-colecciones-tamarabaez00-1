@@ -6,12 +6,8 @@ import enemigos.*
 describe "Rolando encuentra artefactos"{
     test "Rolando recolecta artefactos" {
         rolando.encontrarArtefacto(espadaDelDestino)
-        assert.that(rolando.artefactos().contains(espadaDelDestino))
-    }
-
-    test "Rolando encuentra libro de hechizos"{
-        rolando.encontrarArtefacto(espadaDelDestino)
         rolando.encontrarArtefacto(libroDeHechizos)
+        assert.that(rolando.artefactos().contains(espadaDelDestino))
         assert.that(rolando.artefactos().contains(libroDeHechizos))
     }
 
@@ -27,56 +23,44 @@ describe "Rolando deja artefactos en castillo" {
   test "Rolando llega al castillo" {
     rolando.encontrarArtefacto(espadaDelDestino)
     rolando.encontrarArtefacto(libroDeHechizos)
-    rolando.llegarA(castillo)
+    rolando.llegarAMorada()
     assert.that(castillo.inventario().contains(espadaDelDestino))
     assert.that(castillo.inventario().contains(libroDeHechizos))
+
+    rolando.encontrarArtefacto(collarDivino)  //Rolando encuentra el collar divino y lo recoge
+    assert.that(rolando.artefactos().contains(collarDivino)) 
+
+    rolando.llegarAMorada()                   //Rolando llega nuevamente al castillo y deja el collar divino
+    assert.that(castillo.inventario().contains(collarDivino)) 
   }
 
-  test "Rolando encuentra collar y lo recoge" {
-    rolando.encontrarArtefacto(espadaDelDestino)
-    rolando.encontrarArtefacto(libroDeHechizos)
-    rolando.llegarA(castillo)
-    rolando.encontrarArtefacto(collarDivino)
-    assert.that(rolando.artefactos().contains(collarDivino))
-  }
-
-  test "Rolando llega nuevamente al castillo y deja el collar divino" {
-    rolando.encontrarArtefacto(espadaDelDestino)
-    rolando.encontrarArtefacto(libroDeHechizos)
-    rolando.llegarA(castillo)
-    rolando.encontrarArtefacto(collarDivino)
-    rolando.llegarA(castillo)
-    assert.that(castillo.inventario().contains(espadaDelDestino))
-    assert.that(castillo.inventario().contains(libroDeHechizos))
-    assert.that(castillo.inventario().contains(collarDivino))
-  }
 }
 
 describe "Rolando sabe sus posesiones" {
   test "Rolando sabe sus posesiones" {
     rolando.encontrarArtefacto(espadaDelDestino)
     rolando.encontrarArtefacto(libroDeHechizos)
-    rolando.llegarA(castillo)
+    rolando.llegarAMorada()
     rolando.encontrarArtefacto(collarDivino)
-    assert.equals(3,rolando.posesiones(castillo).size())
+    assert.equals(3,rolando.posesiones().size())
   }
 
   test "Rolando sabe si tiene un artefacto en particular" {
     rolando.encontrarArtefacto(espadaDelDestino)
     rolando.encontrarArtefacto(libroDeHechizos)
-    rolando.llegarA(castillo)
+    rolando.llegarAMorada()
     rolando.encontrarArtefacto(armaduraDeAcero)
-    assert.equals(3,rolando.posesiones(castillo).size())
-    assert.that(rolando.posesiones(castillo).contains(espadaDelDestino))
+    assert.equals(3,rolando.posesiones().size())
+    assert.that(rolando.posesiones().contains(espadaDelDestino))
   }
 }
 
-describe "Rolando sabe el orden de sus encuentros" { //feoooo
+describe "Rolando sabe el orden de sus encuentros" { 
   test "Rolando sabe el historial de sus encuentros" {
     rolando.encontrarArtefacto(espadaDelDestino)
     rolando.encontrarArtefacto(libroDeHechizos)
     rolando.encontrarArtefacto(collarDivino)
-    rolando.llegarA(castillo)
+    rolando.llegarAMorada()
     rolando.encontrarArtefacto(armaduraDeAcero)
     rolando.encontrarArtefacto(collarDivino)
     assert.equals(5, rolando.historialDeArtefactos().size())
@@ -108,7 +92,7 @@ describe " test libro de hechizos"{
     rolando.encontrarArtefacto(espadaDelDestino)
     rolando.encontrarArtefacto(armaduraDeAcero)
     rolando.encontrarArtefacto(collarDivino)
-    rolando.llegarA(castillo)
+    rolando.llegarAMorada()
     rolando.encontrarArtefacto(libroDeHechizos)
     libroDeHechizos.agregarHechizo(bendicion)
     libroDeHechizos.agregarHechizo(invisibilidad)
@@ -131,8 +115,6 @@ describe "enemigos" {
     rolando.encontrarArtefacto(espadaDelDestino)
     rolando.encontrarArtefacto(armaduraDeAcero)
     rolando.encontrarArtefacto(collarDivino)
-
-
     
     assert.equals(19, rolando.poderDePelea())
     assert.equals([archibaldo,astra], rolando.enemigosVencibles([archibaldo,astra,caterina]))

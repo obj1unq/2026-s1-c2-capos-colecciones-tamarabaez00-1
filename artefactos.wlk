@@ -11,12 +11,7 @@ object collarDivino {
   }
 
   method poderQueAporta(personaje){
-    if(personaje.poderBase() > 6){
-       return poderBase + (1 * cantUsada)
-    }
-    else{
-      return poderBase + 0
-    }
+    return poderBase + (if (personaje.poderBase() > 6) cantUsada else 0)
   }
 
   method usar() {
@@ -46,7 +41,7 @@ object espadaDelDestino {
 object armaduraDeAcero {
   const poderBase = 6
 
-  method poderQueAporta(_personaje) {
+  method poderQueAporta(personaje) {
     return poderBase
   }
 
@@ -96,12 +91,7 @@ object invisibilidad {
 object invocacion {
 
   method poderQueAporta(personaje) {
-    if (personaje.tieneArtefactosEnSuMorada()){
-      return personaje.artefactoMasPoderosoDeLaMorada().poderQueAporta(personaje)
-    }
-    else{
-      return 0
-    }
+    return personaje.poderArtefactoMasPoderosoDeLaMorada()
   }
 
 }

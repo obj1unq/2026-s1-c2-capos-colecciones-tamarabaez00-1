@@ -28,13 +28,13 @@ object rolando{
     return artefactos
   }
   
-  method llegarA(hogar) {
-    hogar.dejarArtefactos(artefactos)
+  method llegarAMorada() {
+    morada.dejarArtefactos(artefactos)
     artefactos.clear()
   }
 
-  method posesiones(hogar) {
-    return self.artefactos().union(hogar.inventario())
+  method posesiones() {
+    return self.artefactos().union(morada.inventario())
   }
 
   method historialDeArtefactos(){
@@ -55,20 +55,29 @@ object rolando{
   }
 
   method poderDePelea() {
-    return poderBase + artefactos.sum({a => a.poderQueAporta(self)})
+    return poderBase + self.poderTotalDeArtefactos()
   }
 
-  method tieneArtefactosEnSuMorada() {
-    return not morada.inventario().isEmpty() //isEmpty -> estaVacia
+  method poderTotalDeArtefactos() {
+    return artefactos.sum({a => a.poderQueAporta(self)})
+  }
+
+  method poderArtefactoMasPoderosoDeLaMorada() {
+    return if (morada.tieneArtefactos()){
+      self.artefactoMasPoderosoDeLaMorada().poderQueAporta(self)
+    }
+    else{
+      0
+    }
   }
  
-  method artefactoMasPoderosoDeLaMorada() {
+  method artefactoMasPoderosoDeLaMorada() { 
     return morada.artefactoMasPoderoso(self)
   }
 
  method enemigosVencibles(enemigos) {
-    return enemigos.filter({ e => self.poderDePelea()> e.poderDePelea() })
-  }
+    return (#{} + enemigos).filter({ e => self.poderDePelea()> e.poderDePelea() })
+  }      //lo convierto en set y filtro todo junto
 
   method moradasConquistables(enemigos) {
     return self.enemigosVencibles(enemigos).map({ e => e.morada() }) // map transforma 

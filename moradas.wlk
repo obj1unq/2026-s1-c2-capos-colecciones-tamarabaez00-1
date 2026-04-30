@@ -9,6 +9,10 @@ object castillo {
     inventario.addAll(artefactos)
   }
 
+  method tieneArtefactos() {
+    return not inventario.isEmpty()
+  }
+
   method inventario() {
     return inventario
   }
